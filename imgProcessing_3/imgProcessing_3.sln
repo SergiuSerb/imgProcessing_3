@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "imgProcessing_3", "imgProcessing_3\imgProcessing_3.csproj", "{FE699DF5-C861-46FE-92D7-14CA99CEC8F4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE699DF5-C861-46FE-92D7-14CA99CEC8F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE699DF5-C861-46FE-92D7-14CA99CEC8F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE699DF5-C861-46FE-92D7-14CA99CEC8F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE699DF5-C861-46FE-92D7-14CA99CEC8F4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C81B150D-5728-459B-A8EA-A472948C5A5B}
+	EndGlobalSection
+EndGlobal

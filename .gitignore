@@ -13,7 +13,7 @@ imgProcessing_3/.vs/imgProcessing_3/v16/
 
 # User-specific files
 *.rsuser
-*.suo
+!*.suo
 *.user
 *.userosscache
 *.sln.docstates
@@ -572,3 +572,17 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,csharp
+
+imgProcessing_3/imgProcessing_3/obj/Debug/netcoreapp3.1/imgProcessing_3_MarkupCompile.cache
+
+imgProcessing_3/imgProcessing_3/obj/Debug/netcoreapp3.1/imgProcessing_3_MarkupCompile.i.cache
+
+imgProcessing_3/imgProcessing_3/obj/Debug/netcoreapp3.1/imgProcessing_3.assets.cache
+
+imgProcessing_3/imgProcessing_3/obj/Debug/netcoreapp3.1/imgProcessing_3.csprojAssemblyReference.cache
+
+imgProcessing_3/imgProcessing_3/obj/imgProcessing_3.csproj.nuget.dgspec.json
+
+imgProcessing_3/imgProcessing_3/obj/project.assets.json
+
+imgProcessing_3/imgProcessing_3/obj/project.nuget.cache

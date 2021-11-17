@@ -74,6 +74,8 @@ namespace imgProcessing_3.UserInterface.Controls
 
         private event PresetValueChangedHandler PresetValueChanged;
 
+        public event ColourParametersChangedHandler ColourParametersChanged;
+
         private void SubscribeToEvents()
         {
             SliderValueChanged += OnSliderValueChanged;
@@ -84,11 +86,13 @@ namespace imgProcessing_3.UserInterface.Controls
         {
             UpdateTextBlocks();
             UpdateSliders();
+            ColourParametersChanged?.Invoke(sender, StrengthR, StrengthG, StrengthB);
         }
 
         private void OnSliderValueChanged(object sender)
         {
             UpdateTextBlocks();
+            ColourParametersChanged?.Invoke(sender, StrengthR, StrengthG, StrengthB);
         }
 
         private void UpdateSliders()
@@ -105,9 +109,21 @@ namespace imgProcessing_3.UserInterface.Controls
 
         private void UpdateTextBlocks()
         {
-            textBlockControls["strengthRValue"].Text = Math.Round(StrengthR, 2).ToString(CultureInfo.InvariantCulture);
-            textBlockControls["strengthGValue"].Text = Math.Round(StrengthG, 2).ToString(CultureInfo.InvariantCulture);
-            textBlockControls["strengthBValue"].Text = Math.Round(StrengthB, 2).ToString(CultureInfo.InvariantCulture);
+            textBlockControls["strengthRValue"].Text = GetStringifiedValue(StrengthR);
+            textBlockControls["strengthGValue"].Text = GetStringifiedValue(StrengthG);
+            textBlockControls["strengthBValue"].Text = GetStringifiedValue(StrengthB);
+        }
+
+        private string GetStringifiedValue(double valueToStringify)
+        {
+            string value = Math.Round(valueToStringify, 2).ToString(CultureInfo.InvariantCulture);
+
+            switch(value)
+            {
+                case "0": return "0.00";
+                case "1": return "1.00";
+                default: return value;
+            }
         }
 
 
@@ -170,5 +186,7 @@ namespace imgProcessing_3.UserInterface.Controls
         private delegate void SliderValueChangedHandler(object sender);
 
         private delegate void PresetValueChangedHandler(object sender);
+
+        public delegate void ColourParametersChangedHandler(object sender, double R, double G, double B);
     }
 }

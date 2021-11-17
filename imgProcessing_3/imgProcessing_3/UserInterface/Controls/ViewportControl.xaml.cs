@@ -11,14 +11,11 @@ namespace imgProcessing_3.UserInterface.Controls
     /// </summary>
     public partial class ViewportControl : UserControl
     {
-        private float cubeRotation;
+        private float StrengthB { get; set; }
 
+        private float StrengthG { get; set; }
 
-        private float StrengthB { get; }
-
-        private float StrengthG { get; }
-
-        private float StrengthR { get; }
+        private float StrengthR { get; set; }
 
         public ViewportControl()
         {
@@ -46,14 +43,6 @@ namespace imgProcessing_3.UserInterface.Controls
                 new Tuple<byte, byte, byte>(1, 0, 1)
             };
 
-            //List<Tuple<byte, byte, byte, byte>> faces = new List<Tuple<byte, byte, byte, byte>>
-            //{
-            //    new Tuple<byte, byte, byte, byte>(0, 1, 2, 3),
-            //    new Tuple<byte, byte, byte, byte>(3, 2, 5, 4),
-            //    new Tuple<byte, byte, byte, byte>(4, 5, 7, 6),
-            //    new Tuple<byte, byte, byte, byte>(6, 7, 1, 0)
-            //};
-
             List<Tuple<byte, byte, byte, byte>> faces2 = new List<Tuple<byte, byte, byte, byte>>
             {
                 new Tuple<byte, byte, byte, byte>(4, 3, 2, 5),
@@ -65,8 +54,8 @@ namespace imgProcessing_3.UserInterface.Controls
             };
 
             gl.LoadIdentity();
-            gl.Translate(-0.5, -0.5, -8);
-            gl.Rotate(45, 45, 45);
+            gl.Translate(0, 0, -4);
+            gl.Rotate(25, -45, 0);
 
             gl.Begin(OpenGL.GL_QUADS);
             foreach (Tuple<byte, byte, byte, byte> face in faces2)
@@ -91,8 +80,6 @@ namespace imgProcessing_3.UserInterface.Controls
             gl.End();
 
             gl.Flush();
-
-            cubeRotation = 45;
         }
 
         private Tuple<float, float, float> GetColourForVertex(Tuple<byte, byte, byte> vertex)
@@ -106,6 +93,18 @@ namespace imgProcessing_3.UserInterface.Controls
         private void OpenGLControl_OpenGLInitialized(object sender, OpenGLRoutedEventArgs args)
         {
             args.OpenGL.Enable(OpenGL.GL_DEPTH_TEST);
+        }
+
+        public void SubscribeToEvents(ColourParametersControl colourParameterControl)
+        {
+            colourParameterControl.ColourParametersChanged += ColourParameterControlOnColourParametersChanged;
+        }
+
+        private void ColourParameterControlOnColourParametersChanged(object sender, double r, double g, double b)
+        {
+            StrengthR = (float)r;
+            StrengthG = (float)g;
+            StrengthB = (float)b;
         }
     }
 }

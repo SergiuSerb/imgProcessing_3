@@ -13,12 +13,18 @@
     <Compile Update="UserInterface\Controls\ViewportControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserInterface\Controls\ViewportParametersControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="UserInterface\Controls\ColourParametersControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserInterface\Controls\ViewportControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserInterface\Controls\ViewportParametersControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserInterface\Windows\MainWindow.xaml">

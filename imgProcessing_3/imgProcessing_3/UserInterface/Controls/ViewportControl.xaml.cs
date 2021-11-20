@@ -17,6 +17,8 @@ namespace imgProcessing_3.UserInterface.Controls
 
         private float StrengthR { get; set; }
 
+        public float CurrentRotation { get; set; }
+
         public ViewportControl()
         {
             InitializeComponent();
@@ -28,9 +30,42 @@ namespace imgProcessing_3.UserInterface.Controls
         private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
         {
             OpenGL gl = args.OpenGL;
-
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+            //gl.MatrixMode(OpenGL.GL_PROJECTION);
+            //gl.LookAt(10, 10, 10,
+            //    0, 0, 0,
+            //    0, 1, 0);
 
+            //// gl.MatrixMode(OpenGL.GL_PROJECTION);
+            ////gl.Ortho(-100, 100, -100, 100, 0, 100);
+            //gl.Translate(-10, -10, -4);
+            //gl.Rotate(0, CurrentRotation, 0);
+            //gl.LoadIdentity();
+            gl.MatrixMode(OpenGL.GL_PROJECTION);
+            gl.LoadIdentity();
+            //gl.Perspective(Math.Atan(Math.Tan(50.0 * 3.14159 / 360.0) / 1.0) * 360.0 / 3.141593, 1.0, 3.0, 10);
+            gl.Ortho(-1.5, 1.5, -1.5, 1.5, 2, 30);
+            gl.MatrixMode(OpenGL.GL_MODELVIEW);
+            gl.LoadIdentity();
+
+            gl.LookAt(3, 3, 3,
+                0, 0.0, 0.0,
+                0.0, 1, 0.0);
+
+            gl.Rotate(CurrentRotation, 0, 1, 0);
+
+            gl.PushMatrix();
+            {
+                gl.Translate(-0.5, -0.5, -0.5);
+                RenderCube(gl);
+            }
+            gl.PopMatrix();
+
+            gl.Flush();
+        }
+
+        private void RenderCube(OpenGL gl)
+        {
             List<Tuple<byte, byte, byte>> vertices = new List<Tuple<byte, byte, byte>>
             {
                 new Tuple<byte, byte, byte>(0, 0, 0), // 0
@@ -43,7 +78,7 @@ namespace imgProcessing_3.UserInterface.Controls
                 new Tuple<byte, byte, byte>(1, 0, 1)
             };
 
-            List<Tuple<byte, byte, byte, byte>> faces2 = new List<Tuple<byte, byte, byte, byte>>
+            List<Tuple<byte, byte, byte, byte>> faces = new List<Tuple<byte, byte, byte, byte>>
             {
                 new Tuple<byte, byte, byte, byte>(4, 3, 2, 5),
                 new Tuple<byte, byte, byte, byte>(7, 1, 0, 6),
@@ -53,12 +88,8 @@ namespace imgProcessing_3.UserInterface.Controls
                 new Tuple<byte, byte, byte, byte>(4, 5, 7, 6)
             };
 
-            gl.LoadIdentity();
-            gl.Translate(0, 0, -4);
-            gl.Rotate(25, -45, 0);
-
             gl.Begin(OpenGL.GL_QUADS);
-            foreach (Tuple<byte, byte, byte, byte> face in faces2)
+            foreach (Tuple<byte, byte, byte, byte> face in faces)
             {
                 List<Tuple<byte, byte, byte>> faceVertices = new List<Tuple<byte, byte, byte>>
                 {
@@ -78,8 +109,6 @@ namespace imgProcessing_3.UserInterface.Controls
             }
 
             gl.End();
-
-            gl.Flush();
         }
 
         private Tuple<float, float, float> GetColourForVertex(Tuple<byte, byte, byte> vertex)
@@ -95,9 +124,15 @@ namespace imgProcessing_3.UserInterface.Controls
             args.OpenGL.Enable(OpenGL.GL_DEPTH_TEST);
         }
 
-        public void SubscribeToEvents(ColourParametersControl colourParameterControl)
+        public void SubscribeToEvents(ColourParametersControl colourParameterControl, ViewportParametersControl viewportParametersControl)
         {
             colourParameterControl.ColourParametersChanged += ColourParameterControlOnColourParametersChanged;
+            viewportParametersControl.ViewportParametersChanged += ViewportParametersControlOnViewportParametersChanged;
+        }
+
+        private void ViewportParametersControlOnViewportParametersChanged(object sender, double rotation, string renderMode)
+        {
+            CurrentRotation = (float)rotation;
         }
 
         private void ColourParameterControlOnColourParametersChanged(object sender, double r, double g, double b)

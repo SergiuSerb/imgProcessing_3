@@ -8,6 +8,8 @@ namespace imgProcessing_3.UserInterface.Controls
 {
     public partial class ColourParametersControl : UserControl
     {
+        public delegate void ColourParametersChangedHandler(object sender, double R, double G, double B);
+
         private static readonly IList<string> ColourPresets = new List<string> { "Red-Green", "Red-Blue", "Green-Blue", "Custom" };
 
         private bool isPresetSelected;
@@ -22,19 +24,35 @@ namespace imgProcessing_3.UserInterface.Controls
 
         public double StrengthB { get; set; }
 
+        public string SelectedPreset { get; set; }
+
         public ColourParametersControl()
         {
             InitializeComponent();
 
             isPresetSelected = false;
 
+            StrengthR = 1;
+            StrengthG = 1;
+            StrengthB = 1;
+
             LoadTextBlocks();
+            UpdateTextBlocks();
+
             LoadSliders();
+            UpdateSliders();
+
             LoadPresetDropDown();
+            UpdatePresetDropDown();
 
             SetDropdownValues();
 
             SubscribeToEvents();
+        }
+
+        private void UpdatePresetDropDown()
+        {
+            presetDropdown.SelectedIndex = 3;
         }
 
         private void LoadTextBlocks()
@@ -118,7 +136,7 @@ namespace imgProcessing_3.UserInterface.Controls
         {
             string value = Math.Round(valueToStringify, 2).ToString(CultureInfo.InvariantCulture);
 
-            switch(value)
+            switch (value)
             {
                 case "0": return "0.00";
                 case "1": return "1.00";
@@ -186,7 +204,5 @@ namespace imgProcessing_3.UserInterface.Controls
         private delegate void SliderValueChangedHandler(object sender);
 
         private delegate void PresetValueChangedHandler(object sender);
-
-        public delegate void ColourParametersChangedHandler(object sender, double R, double G, double B);
     }
 }

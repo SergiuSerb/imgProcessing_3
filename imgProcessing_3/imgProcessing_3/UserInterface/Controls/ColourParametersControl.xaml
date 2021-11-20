@@ -14,9 +14,9 @@
                 <Label x:Name="strengthR" Content="R" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="49" Margin="10,50,0,0"/>
                 <Label x:Name="strengthG" Content="G" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="49" Margin="10,80,0,0"/>
                 <Label x:Name="strengthB" Content="B" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="49" Margin="10,110,0,0"/>
-                <Slider x:Name="strengthRSlider" HorizontalAlignment="Left" Height="22" Margin="75,55,0,0" VerticalAlignment="Top" Width="280" Maximum="1" ValueChanged="strengthRSlider_ValueChanged" TickPlacement="None"/>
-                <Slider x:Name="strengthGSlider" HorizontalAlignment="Left" Height="22" Margin="75,85,0,0" VerticalAlignment="Top" Width="280" Maximum="1" ValueChanged="strengthGSlider_ValueChanged"/>
-                <Slider x:Name="strengthBSlider" HorizontalAlignment="Left" Height="22" Margin="75,115,0,0" VerticalAlignment="Top" Width="280" Maximum="1" ValueChanged="strengthBSlider_ValueChanged"/>
+                <Slider x:Name="strengthRSlider" HorizontalAlignment="Left" Height="22" Margin="75,55,0,0" VerticalAlignment="Top" Width="280" Maximum="1" ValueChanged="strengthRSlider_ValueChanged" TickPlacement="None" Value="1"/>
+                <Slider x:Name="strengthGSlider" HorizontalAlignment="Left" Height="22" Margin="75,85,0,0" VerticalAlignment="Top" Width="280" Maximum="1" ValueChanged="strengthGSlider_ValueChanged" Value="1"/>
+                <Slider x:Name="strengthBSlider" HorizontalAlignment="Left" Height="22" Margin="75,115,0,0" VerticalAlignment="Top" Width="280" Maximum="1" ValueChanged="strengthBSlider_ValueChanged" Value="1"/>
                 <TextBlock x:Name="strengthRValue" HorizontalAlignment="Left" Height="27" Margin="40,55,0,0" Text="0.00" TextWrapping="Wrap" VerticalAlignment="Top" Width="33"/>
                 <TextBlock x:Name="strengthGValue" HorizontalAlignment="Left" Height="27" Margin="40,85,0,0" Text="0.00" TextWrapping="Wrap" VerticalAlignment="Top" Width="33"/>
                 <TextBlock x:Name="strengthBValue" HorizontalAlignment="Left" Height="27" Margin="40,115,0,0" Text="0.00" TextWrapping="Wrap" VerticalAlignment="Top" Width="33"/>

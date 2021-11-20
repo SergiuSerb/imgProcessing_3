@@ -11,6 +11,7 @@ namespace imgProcessing_3.UserInterface.Controls
     /// </summary>
     public partial class ViewportControl : UserControl
     {
+        private string renderMode;
         private List<bool> selectedFaces;
 
         private float StrengthB { get; set; }
@@ -37,35 +38,107 @@ namespace imgProcessing_3.UserInterface.Controls
         {
             OpenGL gl = args.OpenGL;
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
-            //gl.MatrixMode(OpenGL.GL_PROJECTION);
-            //gl.LookAt(10, 10, 10,
-            //    0, 0, 0,
-            //    0, 1, 0);
 
-            //// gl.MatrixMode(OpenGL.GL_PROJECTION);
-            ////gl.Ortho(-100, 100, -100, 100, 0, 100);
-            //gl.Translate(-10, -10, -4);
-            //gl.Rotate(0, CurrentRotation, 0);
-            //gl.LoadIdentity();
-            gl.MatrixMode(OpenGL.GL_PROJECTION);
-            gl.LoadIdentity();
-            //gl.Perspective(Math.Atan(Math.Tan(50.0 * 3.14159 / 360.0) / 1.0) * 360.0 / 3.141593, 1.0, 3.0, 10);
-            gl.Ortho(-1.5, 1.5, -1.5, 1.5, 2, 30);
-            gl.MatrixMode(OpenGL.GL_MODELVIEW);
-            gl.LoadIdentity();
-
-            gl.LookAt(3, 3, 3,
-                0, 0.0, 0.0,
-                0.0, 1, 0.0);
-
-            gl.Rotate(CurrentRotation, 0, 1, 0);
-
-            gl.PushMatrix();
+            if (renderMode != "3D")
             {
-                gl.Translate(-0.5, -0.5, -0.5);
-                RenderCube(gl);
+                gl.MatrixMode(OpenGL.GL_PROJECTION);
+                gl.LoadIdentity();
+
+                gl.Ortho(-1.5, 1.5, -1.5, 1.5, 2, 30);
+                gl.MatrixMode(OpenGL.GL_MODELVIEW);
+                gl.LoadIdentity();
+
+                gl.LookAt(3, 3, 3,
+                    0, 0.0, 0.0,
+                    0.0, 1, 0.0);
+
+                gl.Rotate(CurrentRotation, 0, 1, 0);
+
+                gl.PushMatrix();
+                {
+                    gl.Translate(-0.5, -0.5, -0.5);
+                    RenderCube(gl);
+                }
+                gl.PopMatrix();
             }
-            gl.PopMatrix();
+            else
+            {
+                gl.MatrixMode(OpenGL.GL_PROJECTION);
+                gl.LoadIdentity();
+
+                gl.Ortho(-2.25, 3.75, -3, 3, -5, 30);
+                gl.MatrixMode(OpenGL.GL_MODELVIEW);
+                gl.LoadIdentity();
+
+                gl.LookAt(0, 3, 0.001,
+                    0, 0.0, 0.0,
+                    0.0, 1, 0.0);
+
+                if (selectedFaces[0])
+                {
+                    gl.PushMatrix();
+                    {
+                        gl.Translate(-0.5, -0.5, -0.5);
+                        RenderWithoutFaceCheckCube(gl);
+                    }
+                    gl.PopMatrix();
+                }
+
+                if (selectedFaces[2])
+                {
+                    gl.PushMatrix();
+                    {
+                        gl.Rotate(90, 1, 0, 0);
+                        gl.Translate(-0.5, -1.5, -0.5);
+                        RenderWithoutFaceCheckCube(gl);
+                    }
+                    gl.PopMatrix();
+                }
+
+                if (selectedFaces[5])
+                {
+                    gl.PushMatrix();
+                    {
+                        gl.Rotate(90, 0, 0, 1);
+                        gl.Translate(1.5, -1.5, -0.5);
+                        RenderWithoutFaceCheckCube(gl);
+                    }
+                    gl.PopMatrix();
+                }
+
+                if (selectedFaces[3])
+                {
+                    gl.PushMatrix();
+                    {
+                        gl.Rotate(-90, 1, 0, 0);
+                        gl.Translate(-0.5, -1.5, -0.5);
+                        RenderWithoutFaceCheckCube(gl);
+                    }
+                    gl.PopMatrix();
+                }
+
+                if (selectedFaces[4])
+                {
+                    gl.PushMatrix();
+                    {
+                        gl.Rotate(-90, 0, 0, 1);
+                        gl.Translate(1.5, -1.5, -0.5);
+                        RenderWithoutFaceCheckCube(gl);
+                    }
+                    gl.PopMatrix();
+                }
+
+                if (selectedFaces[1])
+                {
+                    gl.PushMatrix();
+                    {
+                        gl.Rotate(-180, 0, 0, 1);
+                        gl.Translate(-2.5, -1.5, -0.5);
+                        RenderWithoutFaceCheckCube(gl);
+                    }
+                    gl.PopMatrix();
+                }
+            }
 
             gl.Flush();
         }
@@ -123,6 +196,53 @@ namespace imgProcessing_3.UserInterface.Controls
             gl.End();
         }
 
+        private void RenderWithoutFaceCheckCube(OpenGL gl)
+        {
+            List<Tuple<byte, byte, byte>> vertices = new List<Tuple<byte, byte, byte>>
+            {
+                new Tuple<byte, byte, byte>(0, 0, 0), // 0
+                new Tuple<byte, byte, byte>(0, 0, 1), // 1
+                new Tuple<byte, byte, byte>(0, 1, 1), // 2
+                new Tuple<byte, byte, byte>(0, 1, 0), // 3
+                new Tuple<byte, byte, byte>(1, 1, 0), // 4
+                new Tuple<byte, byte, byte>(1, 1, 1), // 5
+                new Tuple<byte, byte, byte>(1, 0, 0), // 6
+                new Tuple<byte, byte, byte>(1, 0, 1)
+            };
+
+            List<Tuple<byte, byte, byte, byte>> faces = new List<Tuple<byte, byte, byte, byte>>
+            {
+                new Tuple<byte, byte, byte, byte>(4, 3, 2, 5),
+                new Tuple<byte, byte, byte, byte>(7, 1, 0, 6),
+                new Tuple<byte, byte, byte, byte>(6, 0, 3, 4),
+                new Tuple<byte, byte, byte, byte>(5, 2, 1, 7),
+                new Tuple<byte, byte, byte, byte>(2, 3, 0, 1),
+                new Tuple<byte, byte, byte, byte>(4, 5, 7, 6)
+            };
+
+            gl.Begin(OpenGL.GL_QUADS);
+            foreach (Tuple<byte, byte, byte, byte> face in faces)
+            {
+                List<Tuple<byte, byte, byte>> faceVertices = new List<Tuple<byte, byte, byte>>
+                {
+                    vertices[face.Item1],
+                    vertices[face.Item2],
+                    vertices[face.Item3],
+                    vertices[face.Item4]
+                };
+
+                foreach (Tuple<byte, byte, byte> vertex in faceVertices)
+                {
+                    (float colourR, float colourG, float colourB) = GetColourForVertex(vertex);
+                    gl.Color(colourR, colourG, colourB);
+
+                    gl.Vertex(vertex.Item1, vertex.Item2, vertex.Item3);
+                }
+            }
+
+            gl.End();
+        }
+
         private Tuple<float, float, float> GetColourForVertex(Tuple<byte, byte, byte> vertex)
         {
             return new Tuple<float, float, float>(
@@ -142,10 +262,11 @@ namespace imgProcessing_3.UserInterface.Controls
             viewportParametersControl.ViewportParametersChanged += ViewportParametersControlOnViewportParametersChanged;
         }
 
-        private void ViewportParametersControlOnViewportParametersChanged(object sender, double rotation, string rendermode, List<bool> selectedFaces)
+        private void ViewportParametersControlOnViewportParametersChanged(object sender, double rotation, string renderMode, List<bool> selectedFaces)
         {
             CurrentRotation = (float)rotation;
             this.selectedFaces = selectedFaces;
+            this.renderMode = renderMode;
         }
 
         private void ColourParameterControlOnColourParametersChanged(object sender, double r, double g, double b)

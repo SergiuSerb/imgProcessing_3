@@ -21,6 +21,8 @@ namespace imgProcessing_3.UserInterface.Controls
         {
             InitializeComponent();
             InitializePresetDropdown();
+            UpdatePresetDropDown();
+
             InitializeFacesCheckboxes();
             selectedFaces = new List<bool>
             {
@@ -46,11 +48,19 @@ namespace imgProcessing_3.UserInterface.Controls
             }
         }
 
+        private void UpdatePresetDropDown()
+        {
+            presetDropdown.SelectedIndex = 0;
+        }
+
         public event ViewportParametersChangedHandler ViewportParametersChanged;
 
         private void presetDropdown_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             currentlySelectedRenderMode = presetDropdown.Text;
+
+            rotationSlider.IsEnabled = currentlySelectedRenderMode != "3D";
+
             ViewportParametersChanged?.Invoke(this, currentRotation, currentlySelectedRenderMode, selectedFaces);
         }
 

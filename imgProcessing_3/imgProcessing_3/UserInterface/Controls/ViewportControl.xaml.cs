@@ -11,6 +11,8 @@ namespace imgProcessing_3.UserInterface.Controls
     /// </summary>
     public partial class ViewportControl : UserControl
     {
+        private List<bool> selectedFaces;
+
         private float StrengthB { get; set; }
 
         private float StrengthG { get; set; }
@@ -25,6 +27,10 @@ namespace imgProcessing_3.UserInterface.Controls
             StrengthR = 1;
             StrengthG = 1;
             StrengthB = 1;
+            selectedFaces = new List<bool>
+            {
+                true, true, true, true, true, true
+            };
         }
 
         private void OpenGLControl_OpenGLDraw(object sender, OpenGLRoutedEventArgs args)
@@ -89,23 +95,29 @@ namespace imgProcessing_3.UserInterface.Controls
             };
 
             gl.Begin(OpenGL.GL_QUADS);
+            int currentFace = 0;
             foreach (Tuple<byte, byte, byte, byte> face in faces)
             {
-                List<Tuple<byte, byte, byte>> faceVertices = new List<Tuple<byte, byte, byte>>
+                if (selectedFaces[currentFace])
                 {
-                    vertices[face.Item1],
-                    vertices[face.Item2],
-                    vertices[face.Item3],
-                    vertices[face.Item4]
-                };
+                    List<Tuple<byte, byte, byte>> faceVertices = new List<Tuple<byte, byte, byte>>
+                    {
+                        vertices[face.Item1],
+                        vertices[face.Item2],
+                        vertices[face.Item3],
+                        vertices[face.Item4]
+                    };
 
-                foreach (Tuple<byte, byte, byte> vertex in faceVertices)
-                {
-                    (float colourR, float colourG, float colourB) = GetColourForVertex(vertex);
-                    gl.Color(colourR, colourG, colourB);
+                    foreach (Tuple<byte, byte, byte> vertex in faceVertices)
+                    {
+                        (float colourR, float colourG, float colourB) = GetColourForVertex(vertex);
+                        gl.Color(colourR, colourG, colourB);
 
-                    gl.Vertex(vertex.Item1, vertex.Item2, vertex.Item3);
+                        gl.Vertex(vertex.Item1, vertex.Item2, vertex.Item3);
+                    }
                 }
+
+                currentFace++;
             }
 
             gl.End();
@@ -130,9 +142,10 @@ namespace imgProcessing_3.UserInterface.Controls
             viewportParametersControl.ViewportParametersChanged += ViewportParametersControlOnViewportParametersChanged;
         }
 
-        private void ViewportParametersControlOnViewportParametersChanged(object sender, double rotation, string renderMode)
+        private void ViewportParametersControlOnViewportParametersChanged(object sender, double rotation, string rendermode, List<bool> selectedFaces)
         {
             CurrentRotation = (float)rotation;
+            this.selectedFaces = selectedFaces;
         }
 
         private void ColourParameterControlOnColourParametersChanged(object sender, double r, double g, double b)

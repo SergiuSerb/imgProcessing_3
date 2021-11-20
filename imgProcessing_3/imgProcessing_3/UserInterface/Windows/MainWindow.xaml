@@ -22,7 +22,7 @@
                                   Height="400"/>
         <controls:ViewportParametersControl x:Name="viewportParametersControl"
                                             HorizontalAlignment="Right" 
-                                            Height="110" 
+                                            Height="166" 
                                             VerticalAlignment="Top" 
                                             Width="395" 
                                             Margin="0,180,0,0" Visibility="Visible" Panel.ZIndex="1"/>

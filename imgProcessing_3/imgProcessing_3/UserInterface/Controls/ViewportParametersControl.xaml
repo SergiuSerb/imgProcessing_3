@@ -5,14 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:imgProcessing_3.UserInterface.Controls"
              mc:Ignorable="d" 
-             Width="395" Height="110">
-    <Grid Height="110" Width="395">
-        <GroupBox Header="Viewport Parameters" Margin="10,0,10,10" Grid.ColumnSpan="2" Width="375">
+             Width="395" Height="154">
+    <Grid Height="154" Width="395">
+        <GroupBox Header="Viewport Parameters" Margin="10,0,10,10" Width="375">
             <Grid Height="236">
                 <ComboBox x:Name="presetDropdown" HorizontalAlignment="Left" Height="27" Margin="67,10,0,0" VerticalAlignment="Top" Width="280" VerticalContentAlignment="Center" SelectionChanged="presetDropdown_SelectionChanged"/>
                 <Label x:Name="presetLabel" Content="Presets" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="49" Margin="10,10,0,0"/>
                 <Label x:Name="strengthR" Content="Rotation" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="60" Margin="10,50,0,0"/>
                 <Slider x:Name="rotationSlider" HorizontalAlignment="Left" Height="22" Margin="75,55,0,0" VerticalAlignment="Top" Width="280" Maximum="360" TickPlacement="None" ValueChanged="rotationSlider_ValueChanged"/>
+                <Label x:Name="facesLabel" Content="Faces" HorizontalAlignment="Left" Height="27" VerticalAlignment="Top" Width="49" Margin="10,90,0,0"/>
+                <CheckBox x:Name="checkbox1" Content="CheckBox" HorizontalAlignment="Left" Height="15" VerticalAlignment="Top" Width="15" Margin="75,96,0,0" Click="faceCheckbox_Click"/>
+                <CheckBox x:Name="checkbox2" Content="CheckBox" HorizontalAlignment="Left" Height="15" VerticalAlignment="Top" Width="15" Margin="125,96,0,0" Click="faceCheckbox_Click"/>
+                <CheckBox x:Name="checkbox3" Content="CheckBox" HorizontalAlignment="Left" Height="15" VerticalAlignment="Top" Width="15" Margin="175,96,0,0" Click="faceCheckbox_Click"/>
+                <CheckBox x:Name="checkbox4" Content="CheckBox" HorizontalAlignment="Left" Height="15" VerticalAlignment="Top" Width="15" Margin="225,96,0,0" Click="faceCheckbox_Click"/>
+                <CheckBox x:Name="checkbox5" Content="CheckBox" HorizontalAlignment="Left" Height="15" VerticalAlignment="Top" Width="15" Margin="275,96,0,0" Click="faceCheckbox_Click"/>
+                <CheckBox x:Name="checkbox6" Content="CheckBox" HorizontalAlignment="Left" Height="15" VerticalAlignment="Top" Width="15" Margin="325,96,0,0" Click="faceCheckbox_Click"/>
             </Grid>
         </GroupBox>
     </Grid>

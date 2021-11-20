@@ -15,7 +15,7 @@ namespace imgProcessing_3
 
         private void InitializeViewportControl()
         {
-            viewportControl.SubscribeToEvents(colourParameterControl);
+            viewportControl.SubscribeToEvents(colourParameterControl, viewportParametersControl);
         }
     }
 }

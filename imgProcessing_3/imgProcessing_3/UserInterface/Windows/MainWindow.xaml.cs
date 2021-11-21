@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using imgProcessing_3.UserInterface.Windows;
 
 namespace imgProcessing_3
 {
@@ -7,6 +8,8 @@ namespace imgProcessing_3
     /// </summary>
     public partial class MainWindow : Window
     {
+        private GenerateWindow generateWindow;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -16,6 +19,16 @@ namespace imgProcessing_3
         private void InitializeViewportControl()
         {
             viewportControl.SubscribeToEvents(colourParameterControl, viewportParametersControl);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            generateWindow = new GenerateWindow(colourParameterControl.StrengthR,
+                colourParameterControl.StrengthG,
+                colourParameterControl.StrengthB,
+                viewportParametersControl.selectedFaces);
+
+            generateWindow.ShowDialog();
         }
     }
 }

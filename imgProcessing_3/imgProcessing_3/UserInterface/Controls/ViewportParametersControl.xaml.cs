@@ -15,7 +15,7 @@ namespace imgProcessing_3.UserInterface.Controls
 
         private string currentlySelectedRenderMode;
         private double currentRotation;
-        private List<bool> selectedFaces;
+        public List<bool> selectedFaces;
 
         public ViewportParametersControl()
         {

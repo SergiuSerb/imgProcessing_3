@@ -26,7 +26,7 @@
                                             VerticalAlignment="Top" 
                                             Width="395" 
                                             Margin="0,180,0,0" Visibility="Visible" Panel.ZIndex="1"/>
-        <Button Content="Generate" HorizontalAlignment="Right" Height="50" VerticalAlignment="Bottom" Width="375" Margin="0,0,10,19"/>
+        <Button Content="Export" HorizontalAlignment="Right" Height="50" VerticalAlignment="Bottom" Width="375" Margin="0,0,10,19" Click="Button_Click"/>
 
     </Grid>
 </Window>

@@ -40,42 +40,121 @@ namespace imgProcessing_3.Generators
             {
                 GenerateIndividualFaces();
             }
+
+            if (generateCompositeImage)
+            {
+                GenerateCompositeImage();
+            }
+        }
+
+        private void GenerateCompositeImage()
+        {
+            int scalingFactor = 1;
+            if (size > 1024)
+            {
+                scalingFactor = size / 1024;
+            }
+
+            List<Bitmap> faceBitmaps = new List<Bitmap>
+            {
+                new Bitmap(size / scalingFactor, size / scalingFactor),
+                new Bitmap(size / scalingFactor, size / scalingFactor),
+                new Bitmap(size / scalingFactor, size / scalingFactor),
+                new Bitmap(size / scalingFactor, size / scalingFactor),
+                new Bitmap(size / scalingFactor, size / scalingFactor),
+                new Bitmap(size / scalingFactor, size / scalingFactor)
+            };
+
+            if (faces[0])
+            {
+                faceBitmaps[0] = GenerateFace0();
+            }
+
+            if (faces[1])
+            {
+                faceBitmaps[1] = GenerateFace1();
+            }
+
+            if (faces[2])
+            {
+                faceBitmaps[2] = GenerateFace2();
+            }
+
+            if (faces[3])
+            {
+                faceBitmaps[3] = GenerateFace3();
+            }
+
+            if (faces[4])
+            {
+                faceBitmaps[4] = GenerateFace4();
+            }
+
+            if (faces[5])
+            {
+                faceBitmaps[5] = GenerateFace5();
+            }
+
+            Bitmap compositeImage = new Bitmap((size / scalingFactor) * 4, (size / scalingFactor) * 3);
+
+            PaintFace(ref compositeImage, 1, 1, scalingFactor, faceBitmaps[0]);
+            PaintFace(ref compositeImage, 3, 1, scalingFactor, faceBitmaps[1]);
+            PaintFace(ref compositeImage, 1, 0, scalingFactor, faceBitmaps[2]);
+            PaintFace(ref compositeImage, 1, 2, scalingFactor, faceBitmaps[3]);
+            PaintFace(ref compositeImage, 0, 1, scalingFactor, faceBitmaps[4]);
+            PaintFace(ref compositeImage, 2, 1, scalingFactor, faceBitmaps[5]);
+
+            compositeImage.Save(path + "compositeImage.jpeg", ImageFormat.Jpeg);
+        }
+
+        private void PaintFace(ref Bitmap compositeImage, int offsetFaceX, int offsetFaceY, int scalingFactor, Bitmap faceBitmap)
+        {
+            int offsetX = offsetFaceX * size / scalingFactor;
+            int offsetY = offsetFaceY * size / scalingFactor;
+
+            for (int i = 0; i < size; i += scalingFactor)
+            {
+                for (int j = 0; j < size; j += scalingFactor)
+                {
+                    compositeImage.SetPixel(i / scalingFactor + offsetX, j / scalingFactor + offsetY, faceBitmap.GetPixel(i, j));
+                }
+            }
         }
 
         private void GenerateIndividualFaces()
         {
             if (faces[0])
             {
-                GenerateFace0();
+                GenerateFace0().Save(path + "face0.jpeg", ImageFormat.Jpeg);
             }
 
             if (faces[1])
             {
-                GenerateFace1();
+                GenerateFace1().Save(path + "face1.jpeg", ImageFormat.Jpeg);
             }
 
             if (faces[2])
             {
-                GenerateFace2();
+                GenerateFace2().Save(path + "face2.jpeg", ImageFormat.Jpeg);
             }
 
             if (faces[3])
             {
-                GenerateFace3();
+                GenerateFace3().Save(path + "face3.jpeg", ImageFormat.Jpeg);
             }
 
             if (faces[4])
             {
-                GenerateFace4();
+                GenerateFace4().Save(path + "face4.jpeg", ImageFormat.Jpeg);
             }
 
             if (faces[5])
             {
-                GenerateFace5();
+                GenerateFace5().Save(path + "face5.jpeg", ImageFormat.Jpeg);
             }
         }
 
-        private void GenerateFace0()
+        private Bitmap GenerateFace0()
         {
             Bitmap bitmap = new Bitmap(size, size);
 
@@ -87,10 +166,10 @@ namespace imgProcessing_3.Generators
                 }
             }
 
-            bitmap.Save(path + "face0.jpeg", ImageFormat.Jpeg);
+            return bitmap;
         }
 
-        private void GenerateFace1()
+        private Bitmap GenerateFace1()
         {
             Bitmap bitmap = new Bitmap(size, size);
 
@@ -102,10 +181,10 @@ namespace imgProcessing_3.Generators
                 }
             }
 
-            bitmap.Save(path + "face1.jpeg", ImageFormat.Jpeg);
+            return bitmap;
         }
 
-        private void GenerateFace2()
+        private Bitmap GenerateFace2()
         {
             Bitmap bitmap = new Bitmap(size, size);
 
@@ -117,10 +196,10 @@ namespace imgProcessing_3.Generators
                 }
             }
 
-            bitmap.Save(path + "face2.jpeg", ImageFormat.Jpeg);
+            return bitmap;
         }
 
-        private void GenerateFace3()
+        private Bitmap GenerateFace3()
         {
             Bitmap bitmap = new Bitmap(size, size);
 
@@ -132,10 +211,10 @@ namespace imgProcessing_3.Generators
                 }
             }
 
-            bitmap.Save(path + "face3.jpeg", ImageFormat.Jpeg);
+            return bitmap;
         }
 
-        private void GenerateFace4()
+        private Bitmap GenerateFace4()
         {
             Bitmap bitmap = new Bitmap(size, size);
 
@@ -147,10 +226,10 @@ namespace imgProcessing_3.Generators
                 }
             }
 
-            bitmap.Save(path + "face4.jpeg", ImageFormat.Jpeg);
+            return bitmap;
         }
 
-        private void GenerateFace5()
+        private Bitmap GenerateFace5()
         {
             Bitmap bitmap = new Bitmap(size, size);
 
@@ -162,7 +241,7 @@ namespace imgProcessing_3.Generators
                 }
             }
 
-            bitmap.Save(path + "face5.jpeg", ImageFormat.Jpeg);
+            return bitmap;
         }
 
         private Color GetColourForCoord(int x, int y, int z)

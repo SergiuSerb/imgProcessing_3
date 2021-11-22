@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Threading.Tasks;
 
 namespace imgProcessing_3.Generators
 {
@@ -43,11 +44,11 @@ namespace imgProcessing_3.Generators
 
             if (generateCompositeImage)
             {
-                GenerateCompositeImage();
+                GenerateCompositeImage().Wait();
             }
         }
 
-        private void GenerateCompositeImage()
+        private async Task GenerateCompositeImage()
         {
             int scalingFactor = 1;
             if (size > 1024)
@@ -123,35 +124,49 @@ namespace imgProcessing_3.Generators
 
         private void GenerateIndividualFaces()
         {
-            if (faces[0])
-            {
-                GenerateFace0().Save(path + "face0.jpeg", ImageFormat.Jpeg);
-            }
-
-            if (faces[1])
-            {
-                GenerateFace1().Save(path + "face1.jpeg", ImageFormat.Jpeg);
-            }
-
-            if (faces[2])
-            {
-                GenerateFace2().Save(path + "face2.jpeg", ImageFormat.Jpeg);
-            }
-
-            if (faces[3])
-            {
-                GenerateFace3().Save(path + "face3.jpeg", ImageFormat.Jpeg);
-            }
-
-            if (faces[4])
-            {
-                GenerateFace4().Save(path + "face4.jpeg", ImageFormat.Jpeg);
-            }
-
-            if (faces[5])
-            {
-                GenerateFace5().Save(path + "face5.jpeg", ImageFormat.Jpeg);
-            }
+            Parallel.Invoke(
+                () =>
+                {
+                    if (faces[1])
+                    {
+                        GenerateFace0().Save(path + "face0.jpeg", ImageFormat.Jpeg);
+                    }
+                },
+                () =>
+                {
+                    if (faces[1])
+                    {
+                        GenerateFace1().Save(path + "face1.jpeg", ImageFormat.Jpeg);
+                    }
+                },
+                () =>
+                {
+                    if (faces[2])
+                    {
+                        GenerateFace2().Save(path + "face2.jpeg", ImageFormat.Jpeg);
+                    }
+                },
+                () =>
+                {
+                    if (faces[3])
+                    {
+                        GenerateFace3().Save(path + "face3.jpeg", ImageFormat.Jpeg);
+                    }
+                },
+                () =>
+                {
+                    if (faces[4])
+                    {
+                        GenerateFace4().Save(path + "face4.jpeg", ImageFormat.Jpeg);
+                    }
+                },
+                () =>
+                {
+                    if (faces[5])
+                    {
+                        GenerateFace5().Save(path + "face5.jpeg", ImageFormat.Jpeg);
+                    }
+                });
         }
 
         private Bitmap GenerateFace0()

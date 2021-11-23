@@ -37,18 +37,24 @@ namespace imgProcessing_3.Generators
 
         public void Generate()
         {
-            if (generateIndividualFaces)
-            {
-                GenerateIndividualFaces();
-            }
-
-            if (generateCompositeImage)
-            {
-                GenerateCompositeImage().Wait();
-            }
+            Parallel.Invoke(() =>
+                {
+                    if (generateIndividualFaces)
+                    {
+                        GenerateIndividualFaces();
+                    }
+                },
+                () =>
+                {
+                    if (generateCompositeImage)
+                    {
+                        GenerateCompositeImage();
+                    }
+                }
+            );
         }
 
-        private async Task GenerateCompositeImage()
+        private void GenerateCompositeImage()
         {
             int scalingFactor = 1;
             if (size > 1024)
@@ -56,54 +62,55 @@ namespace imgProcessing_3.Generators
                 scalingFactor = size / 1024;
             }
 
-            List<Bitmap> faceBitmaps = new List<Bitmap>
-            {
-                new Bitmap(size / scalingFactor, size / scalingFactor),
-                new Bitmap(size / scalingFactor, size / scalingFactor),
-                new Bitmap(size / scalingFactor, size / scalingFactor),
-                new Bitmap(size / scalingFactor, size / scalingFactor),
-                new Bitmap(size / scalingFactor, size / scalingFactor),
-                new Bitmap(size / scalingFactor, size / scalingFactor)
-            };
+            Bitmap face0 = null, face1 = null, face2 = null, face3 = null, face4 = null, face5 = null;
 
-            if (faces[0])
-            {
-                faceBitmaps[0] = GenerateFace0();
-            }
-
-            if (faces[1])
-            {
-                faceBitmaps[1] = GenerateFace1();
-            }
-
-            if (faces[2])
-            {
-                faceBitmaps[2] = GenerateFace2();
-            }
-
-            if (faces[3])
-            {
-                faceBitmaps[3] = GenerateFace3();
-            }
-
-            if (faces[4])
-            {
-                faceBitmaps[4] = GenerateFace4();
-            }
-
-            if (faces[5])
-            {
-                faceBitmaps[5] = GenerateFace5();
-            }
+            Parallel.Invoke(
+                () =>
+                {
+                    face0 = faces[0]
+                        ? GenerateFace0()
+                        : new Bitmap(size / scalingFactor, size / scalingFactor);
+                },
+                () =>
+                {
+                    face1 = faces[1]
+                        ? GenerateFace1()
+                        : new Bitmap(size / scalingFactor, size / scalingFactor);
+                },
+                () =>
+                {
+                    face2 = faces[2]
+                        ? GenerateFace2()
+                        : new Bitmap(size / scalingFactor, size / scalingFactor);
+                },
+                () =>
+                {
+                    face3 = faces[3]
+                        ? GenerateFace3()
+                        : new Bitmap(size / scalingFactor, size / scalingFactor);
+                },
+                () =>
+                {
+                    face4 = faces[4]
+                        ? GenerateFace4()
+                        : new Bitmap(size / scalingFactor, size / scalingFactor);
+                },
+                () =>
+                {
+                    face5 = faces[5]
+                        ? GenerateFace5()
+                        : new Bitmap(size / scalingFactor, size / scalingFactor);
+                }
+            );
 
             Bitmap compositeImage = new Bitmap((size / scalingFactor) * 4, (size / scalingFactor) * 3);
 
-            PaintFace(ref compositeImage, 1, 1, scalingFactor, faceBitmaps[0]);
-            PaintFace(ref compositeImage, 3, 1, scalingFactor, faceBitmaps[1]);
-            PaintFace(ref compositeImage, 1, 0, scalingFactor, faceBitmaps[2]);
-            PaintFace(ref compositeImage, 1, 2, scalingFactor, faceBitmaps[3]);
-            PaintFace(ref compositeImage, 0, 1, scalingFactor, faceBitmaps[4]);
-            PaintFace(ref compositeImage, 2, 1, scalingFactor, faceBitmaps[5]);
+            PaintFace(ref compositeImage, 1, 1, scalingFactor, face0);
+            PaintFace(ref compositeImage, 3, 1, scalingFactor, face1);
+            PaintFace(ref compositeImage, 1, 0, scalingFactor, face2);
+            PaintFace(ref compositeImage, 1, 2, scalingFactor, face3);
+            PaintFace(ref compositeImage, 0, 1, scalingFactor, face4);
+            PaintFace(ref compositeImage, 2, 1, scalingFactor, face5);
 
             compositeImage.Save(path + "compositeImage.jpeg", ImageFormat.Jpeg);
         }
